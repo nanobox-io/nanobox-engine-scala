@@ -1,0 +1,10 @@
+build:
+  stability: alpha
+  runtime: sun-jdk8
+  engine: ../../../../nanobox-engine-scala
+web1:
+  ports:
+    - 80:8080
+    - 443:8080
+  stability: alpha
+  exec: target/universal/stage/bin/play-getting-started -Dhttp.port=$PORT

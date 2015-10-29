@@ -1,0 +1,13 @@
+env:
+  JAVA_HOME: {{java_home}}
+  JAVA_OPTS: "-XX:+UseCompressedOops"
+  PORT: 8080
+build:
+  lib_dirs:
+    - .ivy2
+    - .sbt
+    - target
+{{#has_bower}}
+    - node_modules
+    - bower_components
+{{/has_bower}}
