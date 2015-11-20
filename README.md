@@ -1,4 +1,4 @@
-# Java
+# Scala
 
 This is a generic Java engine used to launch [Nanobox](http://nanobox.io).
 
