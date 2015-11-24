@@ -9,6 +9,8 @@ pass "unable to create code folder" docker exec $UUID mkdir -p /opt/code
 
 fail "Detected something when there shouldn't be anything" docker exec $UUID bash -c "cd /opt/engines/scala/bin; ./sniff /opt/code"
 
-pass "Failed to inject scala file" docker exec $UUID touch /opt/code/build.sbt
+pass "unable to remove code folder" docker exec $UUID rm -rf /opt/code
+
+pass "Failed to copy test project" docker exec $UUID cp -r /opt/tests/sample-scala /opt/code
 
 pass "Failed to detect Scala" docker exec $UUID bash -c "cd /opt/engines/scala/bin; ./sniff /opt/code"

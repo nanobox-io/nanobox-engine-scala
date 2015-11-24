@@ -9,41 +9,45 @@
 nos_init $@
 
 # source common lib
-. ${engine_lib_dir}/common.sh
+. ${engine_lib_dir}/scala.sh
+
+nos_print_process_start "Installing packages"
 
 # install sun*_java or openjdk*
-install_runtime
+java_install_runtime
+
+scala_install_runtime
 
 # install sbt
-install_sbt
+scala_install_sbt
 
 # install node.js for static assets
-install_js_runtime
+nodejs_install_runtime
 
 # install bower via npm if Bower.json is found
-install_bower
+nodejs_install_bower
 
 # persist all environment variables 
-persist_evars
+nos_persist_evars
 
-create_database_url
+java_create_database_url
 
 # setup cache dirs for sbt
-sbt_cache_dir
+scala_sbt_cache_dir
 
 # sbt_compile
-sbt_compile
+scala_sbt_compile
 
 # run bower install if Bower.json is found
-bower_install
+nodejs_bower_install
 
 # set up auto link creation for console'd containers
-create_profile_links
+scala_create_profile_links
 
 # create link to pid file not in read-only code dir
-create_pid_file
+scala_create_pid_file
 
 # persist the current node.js version in the cache
-set_js_runtime
+nodejs_set_runtime
 
 exit 0
