@@ -24,7 +24,7 @@ scala_create_profile_links() {
   mkdir -p $(nos_etc_dir)/profile.d/
   nos_template \
     "links.sh.mustache" \
-    "$(etc_dir)/profile.d/links.sh" \
+    "$(nos_etc_dir)/profile.d/links.sh" \
     "$(scala_links_payload)"
 }
 
