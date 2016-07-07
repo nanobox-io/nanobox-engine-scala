@@ -3,47 +3,21 @@
 # vim: ts=2 sw=2 ft=bash noet
 
 # source the Nos framework
-. /opt/nos/common.sh
+. /opt/nanobox/nos/common.sh
 
 # initialize Nos with the original arguments
-nos_init $@
+nos_init "$@"
 
 # source common lib
-. ${engine_lib_dir}/common.sh
+. ${engine_lib_dir}/scala.sh
 
 # install sun*_java or openjdk*
 install_runtime
 
-# install sbt
-install_sbt
-
-# install node.js for static assets
-install_js_runtime
-
-# install bower via npm if Bower.json is found
-install_bower
-
-# persist all environment variables 
-persist_evars
-
-create_database_url
-
 # setup cache dirs for sbt
 sbt_cache_dir
 
-# sbt_compile
-sbt_compile
-
-# run bower install if Bower.json is found
-bower_install
-
 # set up auto link creation for console'd containers
 create_profile_links
-
-# create link to pid file not in read-only code dir
-create_pid_file
-
-# persist the current node.js version in the cache
-set_js_runtime
 
 exit 0
