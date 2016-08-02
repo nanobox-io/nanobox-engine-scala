@@ -1,6 +1,9 @@
 # -*- mode: bash; tab-width: 2; -*-
 # vim: ts=2 sw=2 ft=bash noet
 
+# source nodejs
+. ${engine_lib_dir}/nodejs.sh
+
 create_profile_links() {
   mkdir -p $(nos_data_dir)/etc/profile.d/
   nos_template \
@@ -22,7 +25,29 @@ java_runtime() {
 }
 
 install_runtime() {
-  nos_install "$(java_runtime) $(scala_runtime) $(sbt_runtime)"
+  pkgs=($(java_runtime) $(scala_runtime) $(sbt_runtime))
+
+  if [[ "$(is_nodejs_required)" = "true" ]]; then
+    pkgs+=("$(nodejs_dependencies)")
+  fi
+
+  nos_install ${pkgs[@]}
+}
+
+# Uninstall build dependencies
+uninstall_build_packages() {
+  # currently ruby doesn't install any build-only deps... I think
+  pkgs=()
+
+  # if nodejs is required, let's fetch any node build deps
+  if [[ "$(is_nodejs_required)" = "true" ]]; then
+    pkgs+=("$(nodejs_build_dependencies)")
+  fi
+
+  # if pkgs isn't empty, let's uninstall what we don't need
+  if [[ ${#pkgs[@]} -gt 0 ]]; then
+    nos_uninstall ${pkgs[@]}
+  fi
 }
 
 condensed_java_runtime() {
