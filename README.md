@@ -81,7 +81,7 @@ code.build:
 
 ---
 
-### Node.js Runtime Settings
+### Node.js Settings
 Many applications utilize Javascript tools in some way. This engine allows you to specify which Node.js runtime you'd like to use.
 
 ---
