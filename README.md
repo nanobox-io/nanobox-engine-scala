@@ -1,30 +1,40 @@
 # Scala
 
-This is a generic Java engine used to launch [Nanobox](http://nanobox.io).
+This is a Scala engine used to launch Scala apps on [Nanobox](http://nanobox.io).
 
-##### NOTE: This Engine is a Work in Progress
-If you're interested in helping to complete this engine, answers to the questions in [this issue](https://github.com/nanobox-io/nanobox-engine-scala/issues/2) would be great.*
+## Usage
+To use the Scala engine, specify `scala` as your `engine` in your boxfile.yml.
 
-## App Detection
-To detect a Scala app, this engine checks for one of the following:
+```yaml
+code.build:
+  engine: scala
+```
 
-- Files with the `.sbt` extenstion
-- Files with the `.scala` extension inside the `project` directory
-- Files with the `.scala` extension inside the `.sbt` directory
-- `project/build.properties`
+## Build Process
+When [running a build](https://docs.nanboox.io/cli/build/), this engine compiles code by doing the following:
+
+- `sbt`
 
 
 ## Basic Configuration Options
 
-This engine exposes configuration options through the [Boxfile](http://docs.nanobox.io/boxfile/), a yaml config file used to provision and configure your app's infrastructure when using Nanobox. 
+This engine exposes configuration options through the [Boxfile](http://docs.nanobox.io/boxfile/), a yaml config file used to provision and configure your app's infrastructure when using Nanobox.
 
 
 #### Overview of Basic Boxfile Configuration Options
 ```yaml
-build:
-  # Java Settings
-  java_runtime: sun-jdk8
+code.build:
+  config:
+    # Java Settings
+    java_runtime: sun-jdk8
+
+    # sbt Settings
+    sbt_compile: ''
 ```
+
+##### Quick links
+[Java Settings](#java-settings)  
+[sbt Settings](#sbt-settings)
 
 ---
 
@@ -40,14 +50,32 @@ Specifies which Java runtime and version to use. The following runtimes are avai
 - openjdk8
 - sun-jdk6
 - sun-jdk7
-- sun-jdk8 *(default)*
+- sun-jdk8
+- oracle-jdk8 *(default)*
 
 ```yaml
-build:
-  java_runtime: sun-jdk8
+code.build:
+  config:
+    java_runtime: oracle-jdk8
+```
+
+---
+
+### sbt Settings
+The following setting allows you to define sbt-specific options.
+
+---
+
+#### sbt_compile
+Defines what arguments to pass when running sbt.
+
+```yaml
+code.build:
+  config:
+    sbt_compile: 'clean assembly'
 ```
 
 ---
 
 ## Help & Support
-This is a generic (non-framework-specific) Scala engine provided by [Nanobox](http://nanobox.io). If you need help with this engine, you can reach out to us in the [#nanobox IRC channel](http://webchat.freenode.net/?channels=nanobox). If you are running into an issue with the engine, feel free to [create a new issue on this project](https://github.com/nanobox-io/nanobox-engine-scala/issues/new).
+This is a Scala engine provided by [Nanobox](http://nanobox.io). If you need help with this engine, you can reach out to us in the [#nanobox IRC channel](http://webchat.freenode.net/?channels=nanobox). If you are running into an issue with the engine, feel free to [create a new issue on this project](https://github.com/nanobox-io/nanobox-engine-scala/issues/new).
