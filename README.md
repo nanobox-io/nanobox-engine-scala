@@ -30,11 +30,15 @@ code.build:
 
     # sbt Settings
     sbt_compile: 'clean assembly'
+
+    # Node.js Settings
+    nodejs_runtime: nodejs-4.4
 ```
 
 ##### Quick links
 [Java Settings](#java-settings)  
-[sbt Settings](#sbt-settings)
+[sbt Settings](#sbt-settings)  
+[Node.js Settings](#nodejs-settings)
 
 ---
 
@@ -73,6 +77,22 @@ Defines what arguments to pass when running sbt.
 code.build:
   config:
     sbt_compile: 'clean assembly'
+```
+
+---
+
+### Node.js Runtime Settings
+Many applications utilize Javascript tools in some way. This engine allows you to specify which Node.js runtime you'd like to use.
+
+---
+
+#### nodejs_runtime
+Specifies which Node.js runtime and version to use. You can view the available Node.js runtimes in the [Node.js engine documentation](https://github.com/nanobox-io/nanobox-engine-nodejs#runtime).
+
+```yaml
+code.build:
+  config:
+    nodejs_runtime: nodejs-4.4
 ```
 
 ---
