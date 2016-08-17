@@ -18,7 +18,7 @@ When [running a build](https://docs.nanboox.io/cli/build/), this engine compiles
 
 ## Basic Configuration Options
 
-This engine exposes configuration options through the [Boxfile](http://docs.nanobox.io/boxfile/), a yaml config file used to provision and configure your app's infrastructure when using Nanobox.
+This engine exposes configuration options through the [boxfile.yml](http://docs.nanobox.io/app-config/boxfile/), a yaml config file used to provision and configure your app's infrastructure when using Nanobox.
 
 
 #### Overview of Basic Boxfile Configuration Options
