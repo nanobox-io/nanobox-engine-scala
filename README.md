@@ -29,7 +29,7 @@ code.build:
     java_runtime: sun-jdk8
 
     # sbt Settings
-    sbt_compile: ''
+    sbt_compile: 'clean assembly'
 ```
 
 ##### Quick links
