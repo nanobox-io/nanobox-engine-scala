@@ -7,7 +7,7 @@ test_dir="$(dirname $(readlink -f $BASH_SOURCE))"
 tests_dir="${test_dir}/tests/"
 
 mkdir -p /tmp/tmp
-truncate /tmp/tmp/output.log
+truncate -s 0 /tmp/tmp/output.log
 chmod 777 /tmp/tmp/output.log
 tail -f /tmp/tmp/output.log &
 
