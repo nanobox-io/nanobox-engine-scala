@@ -3,14 +3,25 @@
 # vim: ts=2 sw=2 ft=bash noet
 
 # source the Nos framework
-. /opt/nos/common.sh
+. /opt/nanobox/nos/common.sh
 
 # initialize Nos with the original arguments
-nos_init $@
+nos_init "$@"
 
 # source common lib
-. ${engine_lib_dir}/common.sh
+. ${engine_lib_dir}/scala.sh
 
 # dynamically generate a Boxfile from a template,
 # and print to stdout
-create_boxfile
+
+cat <<-END
+env:
+  JAVA_HOME: $(java_home)
+  JAVA_OPTS: "-XX:+UseCompressedOops"
+  PORT: 8080
+build:
+  lib_dirs:
+    - .ivy2
+    - .sbt
+    - target
+END
