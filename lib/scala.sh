@@ -7,15 +7,15 @@
 create_profile_links() {
   mkdir -p $(nos_data_dir)/etc/profile.d/
   nos_template \
-    "links.sh.mustache" \
-    "$(nos_data_dir)/etc/profile.d/links.sh" \
+    "profile.d/scala.sh" \
+    "$(nos_data_dir)/etc/profile.d/scala.sh" \
     "$(links_payload)"
 }
 
 links_payload() {
   cat <<-END
 {
-  "nos_app_dir": "${nos_app_dir}"
+  "data_dir": "$(nos_data_dir)"
 }
 END
 }
@@ -84,10 +84,10 @@ scala_runtime() {
 }
 
 sbt_cache_dir() {
-  [[ ! -f $(nos_code_dir)/.sbt ]] && nos_run_process "make sbt cache dir" "mkdir -p $(nos_code_dir)/.sbt"
-  [[ ! -s ${HOME}/.sbt ]] && nos_run_process "link sbt cache dir" "ln -s $(nos_code_dir)/.sbt ${HOME}/.sbt"
-  [[ ! -f $(nos_code_dir)/.ivy2 ]] && nos_run_process "make ivy2 cache dir" "mkdir -p $(nos_code_dir)/.ivy2"
-  [[ ! -s ${HOME}/.ivy2 ]] && nos_run_process "link ivy2 cache dir" "ln -s $(nos_code_dir)/.ivy2 ${HOME}/.ivy2"
+  [[ ! -f $(nos_data_dir)/var/sbt ]] && nos_run_process "make sbt cache dir" "mkdir -p $(nos_data_dir)/var/sbt"
+  [[ ! -s ${HOME}/.sbt ]] && nos_run_process "link sbt cache dir" "ln -s $(nos_data_dir)/var/sbt ${HOME}/.sbt"
+  [[ ! -f $(nos_data_dir)/var/ivy2 ]] && nos_run_process "make ivy2 cache dir" "mkdir -p $(nos_data_dir)/var/ivy2"
+  [[ ! -s ${HOME}/.ivy2 ]] && nos_run_process "link ivy2 cache dir" "ln -s $(nos_data_dir)/var/ivy2 ${HOME}/.ivy2"
 }
 
 sbt_compile_args() {
@@ -101,4 +101,22 @@ sbt_compile() {
 publish_release() {
   nos_print_bullet "Moving code into app directory..."
   rsync -a $(nos_code_dir)/ $(nos_app_dir)
+}
+
+copy_cached_files() {
+  if [ -d $(nos_cache_dir)/sbt ]; then
+    rsync -a $(nos_cache_dir)/sbt/ $(nos_data_dir)/var/sbt
+  fi
+  if [ -d $(nos_cache_dir)/ivy2 ]; then
+    rsync -a $(nos_cache_dir)/ivy2/ $(nos_data_dir)/var/ivy2
+  fi
+}
+
+save_cached_files() {
+  if [ -d $(nos_data_dir)/var/sbt ]; then
+    rsync -a --delete $(nos_data_dir)/var/sbt/ $(nos_cache_dir)/sbt
+  fi
+  if [ -d $(nos_data_dir)/var/ivy2 ]; then
+    rsync -a --delete $(nos_data_dir)/var/ivy2/ $(nos_cache_dir)/ivy2
+  fi
 }
