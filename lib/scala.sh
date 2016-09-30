@@ -1,9 +1,6 @@
 # -*- mode: bash; tab-width: 2; -*-
 # vim: ts=2 sw=2 ft=bash noet
 
-# source nodejs
-. ${engine_lib_dir}/nodejs.sh
-
 create_profile_links() {
   mkdir -p $(nos_data_dir)/etc/profile.d/
   nos_template \
@@ -15,7 +12,7 @@ create_profile_links() {
 links_payload() {
   cat <<-END
 {
-  "data_dir": "$(nos_data_dir)"
+  "code_dir": "$(nos_code_dir)"
 }
 END
 }
@@ -27,10 +24,6 @@ java_runtime() {
 install_runtime() {
   pkgs=($(java_runtime) $(scala_runtime) $(sbt_runtime))
 
-  if [[ "$(is_nodejs_required)" = "true" ]]; then
-    pkgs+=("$(nodejs_dependencies)")
-  fi
-
   nos_install ${pkgs[@]}
 }
 
@@ -38,11 +31,6 @@ install_runtime() {
 uninstall_build_packages() {
   # currently ruby doesn't install any build-only deps... I think
   pkgs=()
-
-  # if nodejs is required, let's fetch any node build deps
-  if [[ "$(is_nodejs_required)" = "true" ]]; then
-    pkgs+=("$(nodejs_build_dependencies)")
-  fi
 
   # if pkgs isn't empty, let's uninstall what we don't need
   if [[ ${#pkgs[@]} -gt 0 ]]; then
@@ -84,10 +72,10 @@ scala_runtime() {
 }
 
 sbt_cache_dir() {
-  [[ ! -f $(nos_data_dir)/var/sbt ]] && nos_run_process "make sbt cache dir" "mkdir -p $(nos_data_dir)/var/sbt"
-  [[ ! -s ${HOME}/.sbt ]] && nos_run_process "link sbt cache dir" "ln -s $(nos_data_dir)/var/sbt ${HOME}/.sbt"
-  [[ ! -f $(nos_data_dir)/var/ivy2 ]] && nos_run_process "make ivy2 cache dir" "mkdir -p $(nos_data_dir)/var/ivy2"
-  [[ ! -s ${HOME}/.ivy2 ]] && nos_run_process "link ivy2 cache dir" "ln -s $(nos_data_dir)/var/ivy2 ${HOME}/.ivy2"
+  [[ ! -f $(nos_code_dir)/.sbt ]] && nos_run_process "make sbt cache dir" "mkdir -p $(nos_code_dir)/.sbt"
+  [[ ! -s ${HOME}/.sbt ]] && nos_run_process "link sbt cache dir" "ln -s $(nos_code_dir)/.sbt ${HOME}/.sbt"
+  [[ ! -f $(nos_code_dir)/.ivy2 ]] && nos_run_process "make ivy2 cache dir" "mkdir -p $(nos_code_dir)/.ivy2"
+  [[ ! -s ${HOME}/.ivy2 ]] && nos_run_process "link ivy2 cache dir" "ln -s $(nos_code_dir)/.ivy2 ${HOME}/.ivy2"
 }
 
 sbt_compile_args() {
@@ -101,22 +89,4 @@ sbt_compile() {
 publish_release() {
   nos_print_bullet "Moving code into app directory..."
   rsync -a $(nos_code_dir)/ $(nos_app_dir)
-}
-
-copy_cached_files() {
-  if [ -d $(nos_cache_dir)/sbt ]; then
-    rsync -a $(nos_cache_dir)/sbt/ $(nos_data_dir)/var/sbt
-  fi
-  if [ -d $(nos_cache_dir)/ivy2 ]; then
-    rsync -a $(nos_cache_dir)/ivy2/ $(nos_data_dir)/var/ivy2
-  fi
-}
-
-save_cached_files() {
-  if [ -d $(nos_data_dir)/var/sbt ]; then
-    rsync -a --delete $(nos_data_dir)/var/sbt/ $(nos_cache_dir)/sbt
-  fi
-  if [ -d $(nos_data_dir)/var/ivy2 ]; then
-    rsync -a --delete $(nos_data_dir)/var/ivy2/ $(nos_cache_dir)/ivy2
-  fi
 }
