@@ -6,7 +6,7 @@ This is a Scala engine used to launch Scala apps on [Nanobox](http://nanobox.io)
 To use the Scala engine, specify `scala` as your `engine` in your boxfile.yml.
 
 ```yaml
-code.build:
+run.config:
   engine: scala
 ```
 
@@ -23,8 +23,8 @@ This engine exposes configuration options through the [boxfile.yml](http://docs.
 
 #### Overview of Basic Boxfile Configuration Options
 ```yaml
-code.build:
-  config:
+run.config:
+  engine.config:
     # Java Settings
     java_runtime: sun-jdk8
 
@@ -58,8 +58,8 @@ Specifies which Java runtime and version to use. The following runtimes are avai
 - oracle-jdk8 *(default)*
 
 ```yaml
-code.build:
-  config:
+run.config:
+  engine.config:
     java_runtime: oracle-jdk8
 ```
 
@@ -74,8 +74,8 @@ The following setting allows you to define sbt-specific options.
 Defines what arguments to pass when running sbt.
 
 ```yaml
-code.build:
-  config:
+run.config:
+  engine.config:
     sbt_compile: 'clean assembly'
 ```
 
@@ -90,8 +90,8 @@ Many applications utilize Javascript tools in some way. This engine allows you t
 Specifies which Node.js runtime and version to use. You can view the available Node.js runtimes in the [Node.js engine documentation](https://github.com/nanobox-io/nanobox-engine-nodejs#runtime).
 
 ```yaml
-code.build:
-  config:
+run.config:
+  engine.config:
     nodejs_runtime: nodejs-4.4
 ```
 
