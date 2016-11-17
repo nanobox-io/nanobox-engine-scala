@@ -17,7 +17,4 @@ install_runtime
 # setup cache dirs for sbt
 sbt_cache_dir
 
-# set up auto link creation for console'd containers
-create_profile_links
-
 exit 0
