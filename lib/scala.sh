@@ -1,22 +1,6 @@
 # -*- mode: bash; tab-width: 2; -*-
 # vim: ts=2 sw=2 ft=bash noet
 
-create_profile_links() {
-  mkdir -p $(nos_data_dir)/etc/profile.d/
-  nos_template \
-    "profile.d/scala.sh" \
-    "$(nos_data_dir)/etc/profile.d/scala.sh" \
-    "$(links_payload)"
-}
-
-links_payload() {
-  cat <<-END
-{
-  "code_dir": "$(nos_code_dir)"
-}
-END
-}
-
 java_runtime() {
   echo $(nos_validate "$(nos_payload 'config_java_runtime')" "string" "oracle-jdk8")
 }
@@ -69,13 +53,6 @@ sbt_runtime() {
 
 scala_runtime() {
 	echo "$(condensed_java_runtime)-scala"
-}
-
-sbt_cache_dir() {
-  [[ ! -f $(nos_code_dir)/.sbt ]] && nos_run_process "make sbt cache dir" "mkdir -p $(nos_code_dir)/.sbt"
-  [[ ! -s ${HOME}/.sbt ]] && nos_run_process "link sbt cache dir" "ln -s $(nos_code_dir)/.sbt ${HOME}/.sbt"
-  [[ ! -f $(nos_code_dir)/.ivy2 ]] && nos_run_process "make ivy2 cache dir" "mkdir -p $(nos_code_dir)/.ivy2"
-  [[ ! -s ${HOME}/.ivy2 ]] && nos_run_process "link ivy2 cache dir" "ln -s $(nos_code_dir)/.ivy2 ${HOME}/.ivy2"
 }
 
 sbt_compile_args() {
