@@ -30,9 +30,6 @@ run.config:
 
     # sbt Settings
     sbt_compile: 'clean assembly'
-
-    # Node.js Settings
-    nodejs_runtime: nodejs-4.4
 ```
 
 ##### Quick links
@@ -81,21 +78,6 @@ run.config:
 
 ---
 
-### Node.js Settings
-Many applications utilize Javascript tools in some way. This engine allows you to specify which Node.js runtime you'd like to use.
-
----
-
-#### nodejs_runtime
-Specifies which Node.js runtime and version to use. You can view the available Node.js runtimes in the [Node.js engine documentation](https://github.com/nanobox-io/nanobox-engine-nodejs#runtime).
-
-```yaml
-run.config:
-  engine.config:
-    nodejs_runtime: nodejs-4.4
-```
-
----
 
 ## Help & Support
 This is a Scala engine provided by [Nanobox](http://nanobox.io). If you need help with this engine, you can reach out to us in the [#nanobox IRC channel](http://webchat.freenode.net/?channels=nanobox). If you are running into an issue with the engine, feel free to [create a new issue on this project](https://github.com/nanobox-io/nanobox-engine-scala/issues/new).
