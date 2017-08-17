@@ -14,11 +14,8 @@ nos_init "$@"
 # dynamically generate a Boxfile from a template,
 # and print to stdout
 
-if [[ $(grep -c build_triggers /opt/nanobox/hooks/lib/boxfile.rb) -gt 1 ]]; then
-	cat <<-END
-	run.config:
-	  build_triggers:
-	    - mix.exs
-	    - mix.lock
-	END
-fi
+cat <<-END
+run.config:
+  build_triggers:
+    - build.sbt
+END
