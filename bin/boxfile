@@ -14,8 +14,8 @@ nos_init "$@"
 # dynamically generate a Boxfile from a template,
 # and print to stdout
 
-cat <<-END
-run.config:
-  build_triggers:
-    - build.sbt
-END
+# cat <<-END
+# run.config:
+#   build_triggers:
+#     - build.sbt
+# END
