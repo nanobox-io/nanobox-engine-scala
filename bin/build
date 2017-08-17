@@ -15,9 +15,6 @@ nos_init "$@"
 install_runtime
 
 # set up some environment variables
-java_env
-
-# setup cache dirs for sbt
-sbt_cache_dir
+setup_java_env
 
 exit 0

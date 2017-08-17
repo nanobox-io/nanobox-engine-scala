@@ -47,7 +47,7 @@ java_home() {
   esac
 }
 
-java_env() {
+setup_java_env() {
   if [[ ! -f "$(nos_etc_dir)/env.d/JAVA_HOME" ]]; then
     echo "$(java_home)" > "$(nos_etc_dir)/env.d/JAVA_HOME"
   fi
