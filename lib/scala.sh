@@ -101,7 +101,7 @@ scala_runtime() {
 }
 
 sbt_release_target() {
-  echo $(nos_validate "$(nos_payload 'config_sbt_release_target')" "string" "dist")
+  echo $(nos_validate "$(nos_payload 'config_sbt_release_target')" "string" "compile stage")
 }
 
 sbt_compile() {
@@ -110,5 +110,5 @@ sbt_compile() {
 
 publish_release() {
   nos_print_bullet "Moving code into app directory..."
-  rsync -a $(nos_code_dir)/ $(nos_app_dir)
+  rsync -a $(nos_code_dir)/target/universal/stage/ $(nos_app_dir)
 }
