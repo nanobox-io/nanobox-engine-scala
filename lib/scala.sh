@@ -14,7 +14,7 @@ install_runtime() {
 # Uninstall build dependencies
 uninstall_build_packages() {
   # when using sbt-native, we can uninstall everything!
-  pkgs=($(java_runtime) $(scala_runtime) $(sbt_runtime))
+  pkgs=($(scala_runtime) $(sbt_runtime))
 
   # if pkgs isn't empty, let's uninstall what we don't need
   if [[ ${#pkgs[@]} -gt 0 ]]; then
