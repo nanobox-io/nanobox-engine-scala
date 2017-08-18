@@ -20,4 +20,7 @@ setup_java_env
 # set up scala environment
 setup_scala_env
 
+# set up a profile script
+scala_profile_script
+
 exit 0

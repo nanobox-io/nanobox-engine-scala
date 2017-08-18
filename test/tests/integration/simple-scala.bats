@@ -111,6 +111,8 @@ setup() {
   # grab the pid
   pid=$!
 
+  echo $pid
+
   # sleep a few seconds so the server can start
   sleep 3
 
@@ -120,7 +122,7 @@ setup() {
   expected="Hello World!"
 
   # kill the server
-  pkill -P $pid > /dev/null 2>&1
+  kill $pid > /dev/null 2>&1
 
   echo "$output"
 

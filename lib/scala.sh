@@ -60,7 +60,36 @@ setup_java_env() {
 }
 
 setup_scala_env() {
-  
+  if [[ ! -d "$(nos_code_dir)/.nanobox/sbt_cache/sbt" ]]; then
+    mkdir -p "$(nos_code_dir)/.nanobox/sbt_cache/sbt"
+  fi
+  if [[ ! -d "$(nos_code_dir)/.nanobox/sbt_cache/ivy2" ]]; then
+    mkdir -p "$(nos_code_dir)/.nanobox/sbt_cache/ivy2"
+  fi
+  if [[ -d ~/.sbt ]]; then
+    mv ~/.sbt/* "$(nos_code_dir)/.nanobox/sbt_cache/sbt"
+  fi
+  if [[ -d ~/.ivy2 ]]; then
+    mv ~/.ivy2/* "$(nos_code_dir)/.nanobox/sbt_cache/ivy2"
+  fi
+}
+
+# Generate the payload to render the scala profile template
+scala_profile_payload() {
+  cat <<-END
+{
+  "code_dir": "$(nos_code_dir)"
+}
+END
+}
+
+# Profile script to ensure symlinks for sbt and ivy2
+scala_profile_script() {
+  mkdir -p "$(nos_etc_dir)/profile.d"
+  nos_template \
+    "profile.d/scala.sh" \
+    "$(nos_etc_dir)/profile.d/scala.sh" \
+    "$(scala_profile_payload)"
 }
 
 sbt_runtime() {
