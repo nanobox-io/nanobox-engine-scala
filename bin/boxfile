@@ -8,14 +8,15 @@
 # initialize Nos with the original arguments
 nos_init "$@"
 
-# source common lib
-. ${engine_lib_dir}/scala.sh
+# 1) generate cache dirs for sbt and ivy cache locations
+# 2) add a build trigger for the build.sbt file
+cat <<-END
+run.config:
 
-# dynamically generate a Boxfile from a template,
-# and print to stdout
+  cache_dirs:
+    - $(nos_code_dir)/.nanobox/sbt
+    - $(nos_code_dir)/.nanobox/ivy2
 
-# cat <<-END
-# run.config:
-#   build_triggers:
-#     - build.sbt
-# END
+  build_triggers:
+    - build.sbt
+END

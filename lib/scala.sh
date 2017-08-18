@@ -59,6 +59,10 @@ setup_java_env() {
   fi
 }
 
+setup_scala_env() {
+  
+}
+
 sbt_runtime() {
   echo "$(condensed_java_runtime)-sbt"
 }
