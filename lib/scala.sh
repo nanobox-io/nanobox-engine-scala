@@ -87,8 +87,8 @@ END
 scala_profile_script() {
   mkdir -p "$(nos_etc_dir)/profile.d"
   nos_template \
-    "profile.d/scala.sh" \
-    "$(nos_etc_dir)/profile.d/scala.sh" \
+    "profile.d/sbt.sh" \
+    "$(nos_etc_dir)/profile.d/sbt.sh" \
     "$(scala_profile_payload)"
 }
 
