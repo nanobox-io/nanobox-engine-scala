@@ -12,7 +12,9 @@ payload() {
   "cache_dir": "/tmp/cache",
   "etc_dir": "/data/etc",
   "env_dir": "/data/etc/env.d",
-  "config": {}
+  "config": {
+    "sbt_release_target": "clean assembly"
+  }
 }
 END
 }

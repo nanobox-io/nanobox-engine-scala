@@ -100,12 +100,12 @@ scala_runtime() {
 	echo "$(condensed_java_runtime)-scala"
 }
 
-sbt_compile_args() {
-  echo $(nos_validate "$(nos_payload 'config_sbt_compile')" "string" "clean assembly")
+sbt_release_target() {
+  echo $(nos_validate "$(nos_payload 'config_sbt_release_target')" "string" "dist")
 }
 
 sbt_compile() {
-  (cd $(nos_code_dir); nos_run_process "sbt compile" "sbt $(sbt_compile_args)")
+  (cd $(nos_code_dir); nos_run_process "sbt compile" "sbt $(sbt_release_target)")
 }
 
 publish_release() {
