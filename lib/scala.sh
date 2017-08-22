@@ -5,6 +5,7 @@ java_runtime() {
   echo $(nos_validate "$(nos_payload 'config_java_runtime')" "string" "oracle-jdk8")
 }
 
+# install Java, Scala, and sbt (Scala Build Tool)
 install_runtime() {
   pkgs=($(java_runtime) $(scala_runtime) $(sbt_runtime))
 
@@ -13,7 +14,7 @@ install_runtime() {
 
 # Uninstall build dependencies
 uninstall_build_packages() {
-  # when using sbt-native, we can uninstall everything!
+  # when using sbt-native, we can uninstall everything except the JRE
   pkgs=($(scala_runtime) $(sbt_runtime))
 
   # if pkgs isn't empty, let's uninstall what we don't need
@@ -22,11 +23,14 @@ uninstall_build_packages() {
   fi
 }
 
+# Convert jdk-8 into jdk8, etc
 condensed_java_runtime() {
   java_runtime="$(java_runtime)"
   echo ${java_runtime//[.-]/}
 }
 
+# java is complicated, and consequently the home directory of the java
+# installation depends wholly on which flavor of java is installed
 java_home() {
   case "$(java_runtime)" in
   oracle-j??8)
@@ -47,6 +51,8 @@ java_home() {
   esac
 }
 
+# We need to inform the java runtime where it's HOME is, give it
+# some special opts, and also set the PORT for the app to use
 setup_java_env() {
   if [[ ! -f "$(nos_etc_dir)/env.d/JAVA_HOME" ]]; then
     echo "$(java_home)" > "$(nos_etc_dir)/env.d/JAVA_HOME"
@@ -59,13 +65,22 @@ setup_java_env() {
   fi
 }
 
+# Here we get to be a bit clever. sbt will store it's cache (deps, etc)
+# in the HOME dir. Changing this is not easily configurable, so we'll
+# essentially setup a cache dir in ~/.nanobox/sbt_cache, and symlink
+# the ~/.{ivy2,sbt} to the cached location. Also, we'll copy anything
+# into the cache on the first run.
 setup_scala_env() {
+  
+  # Ensure the cache destination exists for sbt & ivy2
   if [[ ! -d "$(nos_code_dir)/.nanobox/sbt_cache/sbt" ]]; then
     mkdir -p "$(nos_code_dir)/.nanobox/sbt_cache/sbt"
   fi
   if [[ ! -d "$(nos_code_dir)/.nanobox/sbt_cache/ivy2" ]]; then
     mkdir -p "$(nos_code_dir)/.nanobox/sbt_cache/ivy2"
   fi
+  
+  # If anything exists before we symlink, copy it into the cache
   if [[ -d ~/.sbt ]]; then
     mv ~/.sbt/* "$(nos_code_dir)/.nanobox/sbt_cache/sbt"
   fi
@@ -92,22 +107,27 @@ scala_profile_script() {
     "$(scala_profile_payload)"
 }
 
+# jdk8-sbt, etc
 sbt_runtime() {
   echo "$(condensed_java_runtime)-sbt"
 }
 
+# jdk8-scala, etc
 scala_runtime() {
 	echo "$(condensed_java_runtime)-scala"
 }
 
+# https://github.com/sbt/sbt-native-packager/blob/master/README.md
 sbt_release_target() {
   echo $(nos_validate "$(nos_payload 'config_sbt_release_target')" "string" "compile stage")
 }
 
+# The sbt command to compile and generate a release. By default will be sbt compile stage
 sbt_compile() {
   (cd $(nos_code_dir); nos_run_process "sbt compile" "sbt $(sbt_release_target)")
 }
 
+# Copy the compiled stage into the deployed app directory
 publish_release() {
   nos_print_bullet "Moving code into app directory..."
   rsync -a $(nos_code_dir)/target/universal/stage/ $(nos_app_dir)

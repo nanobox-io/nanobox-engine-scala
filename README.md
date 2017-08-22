@@ -11,10 +11,11 @@ run.config:
 ```
 
 ## Build Process
-When [running a build](https://docs.nanboox.io/cli/build/), this engine compiles code by doing the following:
+When preparing your application for deploy, this engine compiles code by doing the following:
 
-- `sbt`
+- `sbt compile stage`
 
+*Heads Up:* This engine assumes you have [sbt-native-packager](https://github.com/sbt/sbt-native-packager/blob/master/README.md) configured. 
 
 ## Basic Configuration Options
 
@@ -27,17 +28,7 @@ run.config:
   engine.config:
     # Java Settings
     java_runtime: sun-jdk8
-
-    # sbt Settings
-    sbt_compile: 'clean assembly'
 ```
-
-##### Quick links
-[Java Settings](#java-settings)  
-[sbt Settings](#sbt-settings)  
-[Node.js Settings](#nodejs-settings)
-
----
 
 ### Java Settings
 The following setting allows you to define your Java runtime environment.
@@ -62,22 +53,5 @@ run.config:
 
 ---
 
-### sbt Settings
-The following setting allows you to define sbt-specific options.
-
----
-
-#### sbt_compile
-Defines what arguments to pass when running sbt.
-
-```yaml
-run.config:
-  engine.config:
-    sbt_compile: 'clean assembly'
-```
-
----
-
-
 ## Help & Support
-This is a Scala engine provided by [Nanobox](http://nanobox.io). If you need help with this engine, you can reach out to us in the [#nanobox IRC channel](http://webchat.freenode.net/?channels=nanobox). If you are running into an issue with the engine, feel free to [create a new issue on this project](https://github.com/nanobox-io/nanobox-engine-scala/issues/new).
+This is a Scala engine provided by [Nanobox](http://nanobox.io). If you need help with this engine, you can reach out to us in the [Nanobox Slack channel](https://nanoboxio.slack.com) (access can be requested at [slack.nanoapp.io](http://slack.nanoapp.io)). If you are running into an issue with the engine, feel free to [create a new issue on this project](https://github.com/nanobox-io/nanobox-engine-scala/issues/new).

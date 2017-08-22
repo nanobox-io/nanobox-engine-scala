@@ -11,5 +11,5 @@ nos_init "$@"
 # source common lib
 . ${engine_lib_dir}/scala.sh
 
-# sbt_compile
+# compile
 sbt_compile
