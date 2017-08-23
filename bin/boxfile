@@ -14,7 +14,7 @@ cat <<-END
 run.config:
 
   cache_dirs:
-    - $(nos_code_dir)/.nanobox/sbt_cache
+    - .nanobox/sbt_cache
 
   build_triggers:
     - build.sbt
