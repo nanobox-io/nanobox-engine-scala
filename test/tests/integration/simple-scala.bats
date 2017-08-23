@@ -12,9 +12,7 @@ payload() {
   "cache_dir": "/tmp/cache",
   "etc_dir": "/data/etc",
   "env_dir": "/data/etc/env.d",
-  "config": {
-    "sbt_release_target": "clean assembly"
-  }
+  "config": {}
 }
 END
 }
@@ -108,7 +106,7 @@ setup() {
   cd /tmp/code
 
   # start the server in the background
-  java -jar target/scala-2.11/samplescala-assembly-0.1.0-SNAPSHOT.jar &
+  bin/jetty-launcher &
 
   # grab the pid
   pid=$!

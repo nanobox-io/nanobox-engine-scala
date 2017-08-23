@@ -5,6 +5,7 @@ import org.scalatra.sbt.PluginKeys._
 import com.earldouglas.xwp.JettyPlugin
 import com.mojolly.scalate.ScalatePlugin._
 import ScalateKeys._
+import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
 
 object SamplescalaBuild extends Build {
   val Organization = "io.nanobox"
@@ -44,5 +45,5 @@ object SamplescalaBuild extends Build {
         )
       }
     )
-  ).enablePlugins(JettyPlugin)
+  ).enablePlugins(JettyPlugin, JavaAppPackaging)
 }
