@@ -127,6 +127,7 @@ sbt_compile() {
   (cd $(nos_code_dir); nos_run_process "sbt compile" "sbt $(sbt_release_target)")
 }
 
+# Extract the extra_package_dirs from the engine.config, and echo the list
 extra_package_dirs() {
   declare -a extra_package_dirs_list
   if [[ "${PL_config_extra_package_dirs_type}" = "array" ]]; then
@@ -156,7 +157,8 @@ extra_package_dirs() {
   fi
 }
 
-# Copy the compiled stage into the deployed app directory
+# First copy the compiled stage into the deployed app directory
+# then, copy any extra package dirs specified in the engine.config
 publish_release() {
   nos_print_bullet "Moving code into app directory..."
   rsync -a $(nos_code_dir)/target/universal/stage/ $(nos_app_dir)
