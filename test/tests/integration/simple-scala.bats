@@ -12,7 +12,11 @@ payload() {
   "cache_dir": "/tmp/cache",
   "etc_dir": "/data/etc",
   "env_dir": "/data/etc/env.d",
-  "config": {}
+  "config": {
+    "extra_package_dirs": [
+      "etc"
+    ]
+  }
 }
 END
 }
@@ -93,6 +97,8 @@ setup() {
   echo "$output"
 
   [ "$status" -eq 0 ]
+
+  [[ -f /tmp/app/etc/nginx.conf ]]
 }
 
 @test "verify" {

@@ -127,8 +127,41 @@ sbt_compile() {
   (cd $(nos_code_dir); nos_run_process "sbt compile" "sbt $(sbt_release_target)")
 }
 
+extra_package_dirs() {
+  declare -a extra_package_dirs_list
+  if [[ "${PL_config_extra_package_dirs_type}" = "array" ]]; then
+    for ((i=0; i < PL_config_extra_package_dirs_length ; i++)); do
+      type=PL_config_extra_package_dirs_${i}_type
+      value=PL_config_extra_package_dirs_${i}_value
+      if [[ ${!type} = "string" ]]; then
+        if [[ -d $(nos_code_dir)/${!value} ]]; then
+          add="true"
+          for j in "${extra_package_dirs_list[@]}"; do
+            if [[ "$j" = "${!value}" ]]; then
+              add="false"
+              break;
+            fi
+          done
+          if [[ "$add" = "true" ]]; then
+            extra_package_dirs_list+=(${!value})
+          fi
+        fi
+      fi
+    done
+  fi
+  if [[ -z "extra_package_dirs_list[@]" ]]; then
+    echo ""
+  else
+    echo "${extra_package_dirs_list[@]}"
+  fi
+}
+
 # Copy the compiled stage into the deployed app directory
 publish_release() {
   nos_print_bullet "Moving code into app directory..."
   rsync -a $(nos_code_dir)/target/universal/stage/ $(nos_app_dir)
+
+  for i in $(extra_package_dirs); do
+    rsync -a $(nos_code_dir)/${i} $(nos_app_dir)
+  done
 }
