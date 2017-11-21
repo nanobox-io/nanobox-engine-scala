@@ -38,12 +38,10 @@ The following setting allows you to define your Java runtime environment.
 #### java_runtime
 Specifies which Java runtime and version to use. The following runtimes are available:
 
-- openjdk7
 - openjdk8
 - sun-jdk6
 - sun-jdk7
-- sun-jdk8
-- oracle-jdk8 *(default)*
+- oracle-jdk8
 
 ```yaml
 run.config:
