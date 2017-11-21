@@ -27,7 +27,7 @@ This engine exposes configuration options through the [boxfile.yml](http://docs.
 run.config:
   engine.config:
     # Java Settings
-    java_runtime: sun-jdk8
+    java_runtime: oracle-jdk8
 ```
 
 ### Java Settings
